@@ -1,0 +1,15 @@
+{
+    "name": "journey/queue",
+    "description": "Simple, hierarchical action-test-action queue written in php",
+    "keywords": ["queue","daemon","action"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "journey/daemon": "0.1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Journey\\Queue\\": "src"
+        }
+    }
+}
