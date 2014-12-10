@@ -14,6 +14,9 @@ class Queue implements DaemonControllerInterface
     // Early termination of the queue in seconds where 0 = never
     private $timeout = 0;
 
+    // Internal start time
+    private $starttime;
+
     // The daemon object
     private $daemon;
 
@@ -66,6 +69,11 @@ class Queue implements DaemonControllerInterface
      */
     public function signal()
     {
+        // Safety shutdown based on a timeout
+        if ($this->timeout && time() - $this->starttime > $this->timeout) {
+            return false;
+        }
+
         return count($this->registry);
     }
 
@@ -85,6 +93,7 @@ class Queue implements DaemonControllerInterface
      */
     public function run()
     {
+        $this->starttime = time();
         $daemon = new Daemon($this);
     }
 
