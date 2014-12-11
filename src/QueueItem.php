@@ -22,6 +22,26 @@ class QueueItem
     private $callback;
 
 
+
+    /**
+     * Constructor for creating a new QueueItem
+     */
+    public function __construct($action = null)
+    {
+        if ($action) {
+            $this->action = $action;
+        }
+
+        $this->check = function () {
+            return true;
+        };
+
+        $this->callback = function () {
+            return true;
+        };
+    }
+
+
     /**
      * Set the internal status of this QueueItem
      * @param int $status 0 = Not Run, 1 = Run, 2 = Completed

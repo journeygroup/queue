@@ -1,6 +1,6 @@
 {
     "name": "journey/queue",
-    "description": "Simple, hierarchical action-test-action queue written in php",
+    "description": "Simple, hierarchical action-test-callback queue written in php",
     "keywords": ["queue","daemon","action"],
     "license": "MIT",
     "require": {
