@@ -49,6 +49,7 @@ class QueueItem
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
@@ -119,8 +120,7 @@ class QueueItem
      */
     public function until(callable $check)
     {
-        $this->setCheck($check);
-        return $this;
+        return $this->setCheck($check);
     }
 
 
@@ -131,8 +131,7 @@ class QueueItem
      */
     public function succeedWhen(callable $check)
     {
-        $this->setCheck($check);
-        return $this;
+        return $this->setCheck($check);
     }
 
 
@@ -179,7 +178,7 @@ class QueueItem
     {
         if ($this->callback instanceof QueueItem) {
             $queue->add($this->callback);
-        } else if ($this->callback instanceof Closure) {
+        } else if (is_callable($this->callback)) {
             $callback = $this->callback;
             $callback($queue);
         }
