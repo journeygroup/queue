@@ -9,15 +9,21 @@ Use composer to install it and load it.
 
 ## Use
 
-The queue is made up of a registry of QueueItem objects. Each QueueItem has 3 required elements:
+The queue is made up of a registry of `QueueItem` objects. Each `QueueItem` has 3 elements:
 
 - Action
-- Check
+  - `__construct(Callable)`
+  - `setAction(Callable)`
+- Check 
+  - `unitl(Callable)`
+  - `succeedWhen(Callable)`
 - Callback
+  - `then(Callable)`
+  - `after(Callable)`
 
-The queue first performs the action. The queue will then call the check to determine if the action has completed, and finally the queue will call the callback after the check passes.
+The queue first performs the action. The queue will then call the check to determine if the action has completed until it receives a truthy value. Finally the queue will call the callback after the check passes.
 
-```
+```php
 <?php
 
 include "vendor/autoload.php";
@@ -36,4 +42,4 @@ $queue->run();
 
 ```
 
-To create heirarchy, simply add another QueueItem in the success callback (then() in the above example). $queue->add(new QueueItem...)
+To create hierarchy, simply add another `QueueItem` in the success callback (`then()` in the above example). `$queue->add(new QueueItem...)`

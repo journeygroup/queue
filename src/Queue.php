@@ -40,10 +40,9 @@ class Queue implements DaemonControllerInterface
     {
         if ($callable instanceof QueueItem) {
             $queueItem = $callable;
-        } else {
-            $queueItem = new QueueItem();
-            
+        } else {            
             if (isset($callable)) {
+                $queueItem = new QueueItem();
                 $queueItem->setAction($callable);
             }
         }
