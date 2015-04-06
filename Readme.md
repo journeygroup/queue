@@ -43,3 +43,5 @@ $queue->run();
 ```
 
 To create hierarchy, simply add another `QueueItem` in the success callback (`then()` in the above example). `$queue->add(new QueueItem...)`
+
+**Note:** The check methods also support a second parameter `(optional) $interval = 0` which defines how frequently each check should wait before being called again (non-blocking). An example of how this would be useful is if you are calling a request-limited API for a status and you only want to check ever 30 seconds rather than 30 times a second

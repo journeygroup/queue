@@ -21,6 +21,11 @@ class QueueItem
     // Callable final action
     private $callback;
 
+    // Time interval (seconds) to wait between checks
+    private $interval;
+
+    // Last time (epoch) this queue was checked
+    private $checked;
 
 
     /**
@@ -70,8 +75,9 @@ class QueueItem
      * @param  callable $check  Function that should return the boolean status of action
      * @return self
      */
-    public function setCheck(callable $check)
+    public function setCheck(callable $check, $interval = 0)
     {
+        $this->interval = $interval;
         $this->check = $check;
         return $this;
     }
@@ -118,9 +124,9 @@ class QueueItem
      * @param  callable $callable   Set a check for success
      * @return self
      */
-    public function until(callable $check)
+    public function until(callable $check, $interval = 0)
     {
-        return $this->setCheck($check);
+        return $this->setCheck($check, $interval);
     }
 
 
@@ -129,9 +135,9 @@ class QueueItem
      * @param  callable $callable   Set a check for success
      * @return self
      */
-    public function succeedWhen(callable $check)
+    public function succeedWhen(callable $check, $interval = 0)
     {
-        return $this->setCheck($check);
+        return $this->setCheck($check, $interval);
     }
 
 
@@ -154,9 +160,13 @@ class QueueItem
      */
     public function check()
     {
-        $check = $this->check;
-        $this->setStatus((($check()) ? 2:1));
-        return ($this->status > 1);
+        if (($this->checked + $this->interval) < time()) {
+            $check = $this->check;
+            $this->setStatus((($check()) ? 2:1));
+            $this->checked = time();
+            return ($this->status > 1);
+        }
+        return false;
     }
 
 
